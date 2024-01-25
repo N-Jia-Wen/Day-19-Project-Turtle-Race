@@ -1,0 +1,40 @@
+from turtle import Turtle, Screen
+import random
+
+turtle_list = []
+start_race = False
+end_race = False
+screen = Screen()
+screen.setup(width=500, height=400)
+colours = ["red", "orange", "yellow", "green", "blue", "purple"]
+y_position = [-75, -45, -15, 15, 45, 75]
+
+# This works similarly to the input() function:
+user_bet = screen.textinput(title="Make your bet!",
+                            prompt="Which turtle will win the race? Enter a colour: ").lower()
+for turtle_index in range(6):
+    turtle = Turtle(shape="turtle")
+    turtle.color(colours[turtle_index])
+    turtle.penup()
+    turtle.goto(x=-230, y=y_position[turtle_index])
+    turtle_list.append(turtle)
+
+if user_bet:
+    start_race = True
+
+while start_race is True and end_race is False:
+    for turtle_obj in turtle_list:
+        random_no = random.randint(1, 10)
+        if random_no == 10:
+            turtle_obj.forward(2)
+            if turtle_obj.xcor() >= 230:
+                end_race = True
+                winning_colour = turtle_obj.color()
+
+if winning_colour[0] == user_bet:
+    closing_dialogue = screen.textinput(title=f"The {winning_colour[0]} turtle won.", prompt="You win!")
+else:
+    closing_dialogue = screen.textinput(title=f"The {winning_colour[0]} turtle won.", prompt="You lose :(")
+
+if closing_dialogue:
+    screen.exitonclick()
